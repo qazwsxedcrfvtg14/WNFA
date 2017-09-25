@@ -6,13 +6,13 @@ for port = 7771:7772
         %disp(char(A));
         write(t,[uint8('Q'),10]);
         while(t.BytesAvailable==0)end
-        pause(0.1);
+        pause(0.2);
         input = read(t);
         ary=split(char(input),char(10));
         n=sscanf(char(ary(1)),'%d');
-        %disp(n);
+        disp(n);
         m=sscanf(char(ary(2)),'%d');
-        %disp(m);
+        disp(m);
         X = [];
         for i = 1:m
             li=sscanf(char(ary(2+i)),'%f %f');
