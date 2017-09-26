@@ -1,5 +1,5 @@
 %tx_vec : signal samples
-input = '?' ;
+input = '^' ;
 bin=de2bi(uint8(char(input)));
 %disp(bin);
 input = zeros(1,8-size(bin,2));

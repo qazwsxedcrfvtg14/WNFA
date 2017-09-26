@@ -1,4 +1,4 @@
-file_name='team9_v10_que.bin.mp4';
+file_name='team9_v10_^.bin.mp4';
 junk_frame=3;
 v = VideoReader(file_name);
 mx=[];
@@ -24,8 +24,10 @@ v = VideoReader(file_name);
 init=0;
 output=[];
 gap=-100000;
-gmx=-9999999;
-gmi=9999999;
+gmx1=-9999999;
+gmi1=9999999;
+gmx2=-9999999;
+gmi2=9999999;
 cnt=0;
 while hasFrame(v)
     video = readFrame(v);
@@ -44,19 +46,22 @@ while hasFrame(v)
     if init==0
         continue;
     else
-        gmx=max(signal(1),gmx);
-        gmx=max(signal(end),gmx);
-        gmi=min(signal(1),gmi);
-        gmi=min(signal(end),gmi);
+        gmx1=max(signal(1),gmx1);
+        gmx2=max(signal(end),gmx2);
+        gmi1=min(signal(1),gmi1);
+        gmi2=min(signal(end),gmi2);
     end
 end
 
 v = VideoReader(file_name);
 init=0;
 output=[];
-gap=(gmx+gmi)/3;
+%gap=(gmx+gmi+gmi)/3;
+gap1=(gmx1+gmi1)/2;
+gap2=(gmx2+gmi2)/2;
 %gap=5000;
-%disp(["gap=",gap]);
+%disp(["gap1=",gap1]);
+%disp(["gap2=",gap2]);
 cnt=0;
 while hasFrame(v)
     video = readFrame(v);
@@ -69,17 +74,18 @@ while hasFrame(v)
         continue;
     end
     signal=signal-mx;
-    if signal(1)<gap && signal(end)<gap
+    if signal(1)<gap1 && signal(end)<gap2
         init=1;
     end
     if init==0
         continue;
     else
-        output=[output,signal(1)>gap];
-        output=[output,signal(end)>gap];
-        %disp([signal(1)>gap,signal(end)>gap])
+        output=[output,signal(1)>gap1];
+        output=[output,signal(end)>gap2];
+        %disp([signal(1)>gap1,signal(end)>gap2])
     end 
     %plot(signal);
+    %axis([0, 1200, -1000000, 1000000]);
     %pause();
 end
 %disp(output);
@@ -99,13 +105,6 @@ while 1
         output = output(2:end);
     else
         break;
-    end
-end
-while 1
-    if output(1) == output(3)
-        output = output(3:end);
-    else
-        break
     end
 end
 output = output(5:end);
